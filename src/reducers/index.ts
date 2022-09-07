@@ -15,13 +15,19 @@ const mockTasks = [
   },
 ];
 
+enum TASK_STATUSES {
+  UNSTARTED = 'Unstarted',
+  IN_PROGRESS = 'In Progress',
+  Completed = 'Completed',
+}
+
 interface CreateTaskAction {
   type: 'CREATE_TASK';
   payload: {
     id: number;
     title: string;
     description: string;
-    status: 'Unstarted' | 'In Progress' | 'Completed';
+    status: TASK_STATUSES;
   };
 }
 
