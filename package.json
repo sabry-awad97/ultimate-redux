@@ -4,11 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "server": "json-server --watch json-server/db.json",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
+    "json-server": "^0.17.0",
     "typescript": "^4.8.2",
     "vite": "^3.1.0"
   },
