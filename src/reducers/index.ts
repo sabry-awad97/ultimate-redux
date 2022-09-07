@@ -8,11 +8,15 @@ const initialState = { isLoading: false, tasks: [] as Task[] };
 export default (state = initialState, action: Action) => {
   switch (action.type) {
     case ActionTypes.CREATE_TASK_SUCCEEDED:
-      return { tasks: state.tasks.concat(action.payload.task) };
+      return {
+        ...state,
+        tasks: state.tasks.concat(action.payload.task),
+      };
 
     case ActionTypes.EDIT_TASK_SUCCEEDED:
       const { payload } = action;
       return {
+        ...state,
         tasks: state.tasks.map(task =>
           task.id === payload.task.id ? { ...task, ...payload.task } : task
         ),
@@ -20,11 +24,14 @@ export default (state = initialState, action: Action) => {
 
     case ActionTypes.FETCH_TASKS_SUCCEEDED:
       return {
+        ...state,
+        isLoading: false,
         tasks: action.payload.tasks,
       };
 
     case ActionTypes.DELETE_TASK_SUCCEEDED:
       return {
+        ...state,
         tasks: state.tasks.filter(task => task.id !== action.payload.id),
       };
 
