@@ -15,10 +15,20 @@ const mockTasks = [
   },
 ];
 
-interface Action {
-  type: string;
+interface CreateTaskAction {
+  type: 'CREATE_TASK';
+  payload: {
+    id: number;
+    title: string;
+    description: string;
+    status: 'Unstarted' | 'In Progress' | 'Completed';
+  };
 }
 
-export default (state = { tasks: mockTasks }, action: Action) => {
+// The real point of reducers is to handle actions.
+export default (state = { tasks: mockTasks }, action: CreateTaskAction) => {
+  if (action.type === 'CREATE_TASK') {
+    return { tasks: state.tasks.concat(action.payload) };
+  }
   return state;
 };
