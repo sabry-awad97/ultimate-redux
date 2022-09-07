@@ -1,9 +1,11 @@
 import { ActionTypes, Action } from '../actions/types';
 import { Task } from '../types/Task';
 
+const initialState = { isLoading: false, tasks: [] as Task[] };
+
 // The real point of reducers is to handle actions.
 // Reducers are pure functions that update state in response to actions.
-export default (state = { tasks: [] as Task[] }, action: Action) => {
+export default (state = initialState, action: Action) => {
   switch (action.type) {
     case ActionTypes.CREATE_TASK_SUCCEEDED:
       return { tasks: state.tasks.concat(action.payload.task) };

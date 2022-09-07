@@ -13,13 +13,15 @@ store.subscribe(() => {
 // fetching tasks when the app loads
 await store.dispatch(actions.fetchTasks());
 
+// creating tasks
 const action = await store.dispatch(
   actions.createTask('Peace on Earth', 'No big deal.')
 );
 
-// Editing tasks in the client not the server
+// Editing tasks
 await store.dispatch(
   actions.editTask(action.payload.task.id, { status: TASK_STATUSES.Completed })
 );
 
+// deleting tasks
 await store.dispatch(actions.deleteTask(action.payload.task.id));
