@@ -1,29 +1,35 @@
-// Actions are objects describing an event.
-
+import { nanoid } from 'nanoid';
+import * as api from '../api';
+import { AppThunk } from '../types/AppThunk';
 import { TASK_STATUSES } from '../types/Task';
-import { ActionTypes, CreateTaskAction, EditTaskAction } from './types';
+import { createTaskSucceeded, fetchTasksSucceeded } from './server';
+import {
+  ActionTypes,
+  CreateTaskSucceededAction,
+  EditTaskAction,
+  FetchTasksSucceededAction,
+} from './types';
 
-let _id = 1;
-const uniqueId = () => _id++;
-
+// Actions are objects describing an event.
 // Action creators are functions that return actions.
 export const createTask = (
   title: string,
   description: string,
-  status?: TASK_STATUSES
-): CreateTaskAction => ({
-  type: ActionTypes.CREATE_TASK,
-  payload: {
-    // Side effects can be handled in action creators.
-    id: uniqueId(),
-    title,
-    description,
-    status: status || TASK_STATUSES.UNSTARTED,
-  },
-});
+  status = TASK_STATUSES.UNSTARTED
+): AppThunk<Promise<CreateTaskSucceededAction>> => {
+  return async dispatch => {
+    const { data } = await api.createTask({
+      id: nanoid(),
+      title: title,
+      description: description,
+      status: status,
+    });
+    return dispatch(createTaskSucceeded(data));
+  };
+};
 
 export const editTask = (
-  id: number,
+  id: string,
   params: {
     status: TASK_STATUSES;
   }
@@ -34,3 +40,10 @@ export const editTask = (
     params,
   },
 });
+
+export const fetchTasks = (): AppThunk<Promise<FetchTasksSucceededAction>> => {
+  return async dispatch => {
+    const { data } = await api.fetchTasks();
+    return dispatch(fetchTasksSucceeded(data));
+  };
+};

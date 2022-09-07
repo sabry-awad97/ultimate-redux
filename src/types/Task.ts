@@ -5,7 +5,7 @@ export const enum TASK_STATUSES {
 }
 
 export interface Task {
-  id: number;
+  id: string;
   title: string;
   description: string;
   status: TASK_STATUSES;

@@ -4,8 +4,8 @@ import { Task } from '../types/Task';
 // The real point of reducers is to handle actions.
 // Reducers are pure functions that update state in response to actions.
 export default (state = { tasks: [] as Task[] }, action: Action) => {
-  if (action.type === ActionTypes.CREATE_TASK) {
-    return { tasks: state.tasks.concat(action.payload) };
+  if (action.type === ActionTypes.CREATE_TASK_SUCCEEDED) {
+    return { tasks: state.tasks.concat(action.payload.task) };
   }
 
   if (action.type === ActionTypes.EDIT_TASK) {

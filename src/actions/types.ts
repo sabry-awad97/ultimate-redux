@@ -1,25 +1,15 @@
 import { Task, TASK_STATUSES } from '../types/Task';
 
 export const enum ActionTypes {
-  CREATE_TASK = 'CREATE_TASK',
   EDIT_TASK = 'EDIT_TASK',
   FETCH_TASKS_SUCCEEDED = 'FETCH_TASKS_SUCCEEDED',
-}
-
-export interface CreateTaskAction {
-  type: ActionTypes.CREATE_TASK;
-  payload: {
-    id: number;
-    title: string;
-    description: string;
-    status: TASK_STATUSES;
-  };
+  CREATE_TASK_SUCCEEDED = 'CREATE_TASK_SUCCEEDED',
 }
 
 export interface EditTaskAction {
   type: ActionTypes.EDIT_TASK;
   payload: {
-    id: number;
+    id: string;
     params: {
       status: TASK_STATUSES;
     };
@@ -33,7 +23,14 @@ export interface FetchTasksSucceededAction {
   };
 }
 
+export interface CreateTaskSucceededAction {
+  type: ActionTypes.CREATE_TASK_SUCCEEDED;
+  payload: {
+    task: Task;
+  };
+}
+
 export type Action =
-  | CreateTaskAction
   | EditTaskAction
-  | FetchTasksSucceededAction;
+  | FetchTasksSucceededAction
+  | CreateTaskSucceededAction;
