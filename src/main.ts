@@ -23,3 +23,4 @@ store.dispatch(
 );
 
 store.dispatch(editTask(1, { status: TASK_STATUSES.Completed }));
+console.log(import.meta.env);

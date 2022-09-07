@@ -1,5 +1,13 @@
-import { TASK_STATUSES } from '../types/Task';
-import { CreateTaskAction, ActionTypes, EditTaskAction } from './types';
+import * as api from '../api';
+import { AppThunk } from '../types/AppThunk';
+import { Task, TASK_STATUSES } from '../types/Task';
+
+import {
+  CreateTaskAction,
+  ActionTypes,
+  EditTaskAction,
+  FetchTasksSucceededAction,
+} from './types';
 
 let _id = 1;
 export const uniqueId = () => _id++;
@@ -33,3 +41,16 @@ export const editTask = (
     params,
   },
 });
+
+export const fetchTasksSucceeded = (
+  tasks: Task[]
+): FetchTasksSucceededAction => ({
+  type: ActionTypes.FETCH_TASKS_SUCCEEDED,
+  payload: {
+    tasks,
+  },
+});
+
+export const fetchTasks =
+  (): AppThunk<Promise<FetchTasksSucceededAction>> => dispatch =>
+    api.fetchTasks().then(({ data }) => dispatch(fetchTasksSucceeded(data)));
