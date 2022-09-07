@@ -16,6 +16,6 @@ await store.dispatch(fetchTasks());
 await store.dispatch(createTask('Peace on Earth', 'No big deal.'));
 
 // Editing tasks in the client not the server
-store.dispatch(
+await store.dispatch(
   editTask('rXdwVXhxHLZ7VRAgQ8Lnp', { status: TASK_STATUSES.Completed })
 );

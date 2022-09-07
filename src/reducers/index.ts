@@ -8,11 +8,11 @@ export default (state = { tasks: [] as Task[] }, action: Action) => {
     case ActionTypes.CREATE_TASK_SUCCEEDED:
       return { tasks: state.tasks.concat(action.payload.task) };
 
-    case ActionTypes.EDIT_TASK:
+    case ActionTypes.EDIT_TASK_SUCCEEDED:
       const { payload } = action;
       return {
         tasks: state.tasks.map(task =>
-          task.id === payload.id ? { ...task, ...payload.params } : task
+          task.id === payload.task.id ? { ...task, ...payload.task } : task
         ),
       };
 

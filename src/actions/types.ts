@@ -1,18 +1,15 @@
-import { Task, TASK_STATUSES } from '../types/Task';
+import { Task } from '../types/Task';
 
 export const enum ActionTypes {
-  EDIT_TASK = 'EDIT_TASK',
+  EDIT_TASK_SUCCEEDED = 'EDIT_TASK_SUCCEEDED',
   FETCH_TASKS_SUCCEEDED = 'FETCH_TASKS_SUCCEEDED',
   CREATE_TASK_SUCCEEDED = 'CREATE_TASK_SUCCEEDED',
 }
 
-export interface EditTaskAction {
-  type: ActionTypes.EDIT_TASK;
+export interface EditTaskSucceededAction {
+  type: ActionTypes.EDIT_TASK_SUCCEEDED;
   payload: {
-    id: string;
-    params: {
-      status: TASK_STATUSES;
-    };
+    task: Task;
   };
 }
 
@@ -31,6 +28,6 @@ export interface CreateTaskSucceededAction {
 }
 
 export type Action =
-  | EditTaskAction
+  | EditTaskSucceededAction
   | FetchTasksSucceededAction
   | CreateTaskSucceededAction;

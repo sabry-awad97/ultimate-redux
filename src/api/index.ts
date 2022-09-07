@@ -12,3 +12,5 @@ const client = axios.create({
 
 export const fetchTasks = () => client.get<Task[]>('/tasks');
 export const createTask = (task: Task) => client.post<Task>('/tasks', task);
+export const editTask = (id: string, task: Task) =>
+  axios.put<Task>(`${API_BASE_URL}/tasks/${id}`, task);

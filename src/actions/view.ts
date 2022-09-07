@@ -1,12 +1,15 @@
 import { nanoid } from 'nanoid';
 import * as api from '../api';
 import { AppThunk } from '../types/AppThunk';
-import { TASK_STATUSES } from '../types/Task';
-import { createTaskSucceeded, fetchTasksSucceeded } from './server';
+import { Task, TASK_STATUSES } from '../types/Task';
 import {
-  ActionTypes,
+  createTaskSucceeded,
+  editTaskSucceeded,
+  fetchTasksSucceeded,
+} from './server';
+import {
   CreateTaskSucceededAction,
-  EditTaskAction,
+  EditTaskSucceededAction,
   FetchTasksSucceededAction,
 } from './types';
 
@@ -30,16 +33,16 @@ export const createTask = (
 
 export const editTask = (
   id: string,
-  params: {
-    status: TASK_STATUSES;
-  }
-): EditTaskAction => ({
-  type: ActionTypes.EDIT_TASK,
-  payload: {
-    id,
-    params,
-  },
-});
+  task: Partial<Task> = {}
+): AppThunk<Promise<EditTaskSucceededAction>> => {
+  return async (dispatch, getState) => {
+    const tasks = getState().tasks.tasks;
+    const found = tasks.find(task => task.id === id);
+    const updatedTask = { ...found, ...task } as Task;
+    const { data } = await api.editTask(id, updatedTask);
+    return dispatch(editTaskSucceeded(data));
+  };
+};
 
 export const fetchTasks = (): AppThunk<Promise<FetchTasksSucceededAction>> => {
   return async dispatch => {

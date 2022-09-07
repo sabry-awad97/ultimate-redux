@@ -1,10 +1,8 @@
 {
   "tasks": [
     {
-      "id": "rXdwVXhxHLZ7VRAgQ8Lnp",
-      "title": "Learn Redux",
-      "description": "The store, actions, and reducers, oh my!",
-      "status": "In Progress"
+      "status": "Completed",
+      "id": "rXdwVXhxHLZ7VRAgQ8Lnp"
     },
     {
       "id": "LVuI98cRm81M5jAV0JCkq",
@@ -13,25 +11,19 @@
       "status": "Unstarted"
     },
     {
-      "id": "6SOJrurU-ePz5q0CjFA0I",
+      "id": "DWLNo8jByE5w0e8tS0GNA",
       "title": "Peace on Earth",
       "description": "No big deal.",
       "status": "Unstarted"
     },
     {
-      "id": "N5VjdY14t5FQIBGT8YMGd",
+      "id": "OMsZOYoVydXkDz2GaMwCh",
       "title": "Peace on Earth",
       "description": "No big deal.",
       "status": "Unstarted"
     },
     {
-      "id": "D47GwjnT_ztxq2WzmaU7l",
-      "title": "Peace on Earth",
-      "description": "No big deal.",
-      "status": "Unstarted"
-    },
-    {
-      "id": "aeRgRuVityERMTooAyJnM",
+      "id": "q-UJ38Bch9eRHqUVm1iK8",
       "title": "Peace on Earth",
       "description": "No big deal.",
       "status": "Unstarted"
