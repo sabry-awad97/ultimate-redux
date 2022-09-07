@@ -5,6 +5,7 @@ export const enum ActionTypes {
   FETCH_TASKS_SUCCEEDED = 'FETCH_TASKS_SUCCEEDED',
   CREATE_TASK_SUCCEEDED = 'CREATE_TASK_SUCCEEDED',
   DELETE_TASK_SUCCEEDED = 'DELETE_TASK_SUCCEEDED',
+  FETCH_TASKS_STARTED = 'FETCH_TASKS_STARTED',
 }
 
 export interface EditTaskSucceededAction {
@@ -19,6 +20,10 @@ export interface FetchTasksSucceededAction {
   payload: {
     tasks: Task[];
   };
+}
+
+export interface FetchTasksStartedAction {
+  type: ActionTypes.FETCH_TASKS_STARTED;
 }
 
 export interface CreateTaskSucceededAction {
@@ -37,6 +42,7 @@ export interface DeleteTaskSucceededAction {
 
 export type Action =
   | EditTaskSucceededAction
+  | FetchTasksStartedAction
   | FetchTasksSucceededAction
   | CreateTaskSucceededAction
   | DeleteTaskSucceededAction;

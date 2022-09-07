@@ -22,6 +22,12 @@ export default (state = initialState, action: Action) => {
         ),
       };
 
+    case ActionTypes.FETCH_TASKS_STARTED:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
     case ActionTypes.FETCH_TASKS_SUCCEEDED:
       return {
         ...state,

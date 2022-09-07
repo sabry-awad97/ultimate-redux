@@ -5,7 +5,12 @@ import {
   CreateTaskSucceededAction,
   EditTaskSucceededAction,
   DeleteTaskSucceededAction,
+  FetchTasksStartedAction,
 } from './types';
+
+export const fetchTasksStarted = (): FetchTasksStartedAction => ({
+  type: ActionTypes.FETCH_TASKS_STARTED,
+});
 
 export const fetchTasksSucceeded = (
   tasks: Task[]

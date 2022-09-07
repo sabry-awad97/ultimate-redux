@@ -14,9 +14,8 @@ import {
   EditTaskSucceededAction,
   FetchTasksSucceededAction,
 } from './types';
+import { waitFor } from '../helpers/waitFor';
 
-// Actions are objects describing an event.
-// Action creators are functions that return actions.
 export const createTask = (
   title: string,
   description: string,
@@ -58,6 +57,7 @@ export const deleteTask = (
 export const fetchTasks = (): AppThunk<Promise<FetchTasksSucceededAction>> => {
   return async dispatch => {
     const { data } = await api.fetchTasks();
+    await waitFor(2000);
     return dispatch(fetchTasksSucceeded(data));
   };
 };
