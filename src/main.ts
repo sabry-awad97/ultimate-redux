@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { createTask } from './actions';
+import { createTask, editTask } from './actions';
 import tasks from './reducers';
 import { TASK_STATUSES } from './types/Task';
 
@@ -24,3 +24,5 @@ store.dispatch(
 store.dispatch(
   createTask('Peace on Earth', 'No big deal.', TASK_STATUSES.IN_PROGRESS)
 );
+
+store.dispatch(editTask(1, { status: TASK_STATUSES.Completed }));

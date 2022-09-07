@@ -15,4 +15,14 @@ export interface CreateTaskAction {
   };
 }
 
-export type AnyAction = CreateTaskAction;
+export interface EditTaskAction {
+  type: ActionTypes.EDIT_TASK;
+  payload: {
+    id: number;
+    params: {
+      status: TASK_STATUSES;
+    };
+  };
+}
+
+export type AnyAction = CreateTaskAction | EditTaskAction;
