@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { createTask } from './actions';
 import tasks from './reducers';
 
 const store = configureStore({
@@ -11,10 +12,4 @@ store.subscribe(() => {
   console.log('current state: ', store.getState());
 });
 
-store.dispatch({
-  type: 'CREATE_TASK',
-  payload: {
-    title: 'title',
-    description: 'description',
-  },
-});
+store.dispatch(createTask({ title: 'title', description: 'description' }));
