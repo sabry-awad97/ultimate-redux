@@ -6,12 +6,14 @@ import {
   createTaskSucceeded,
   deleteTaskSucceeded,
   editTaskSucceeded,
+  fetchTasksFailed,
   fetchTasksSucceeded,
 } from './server';
 import {
   CreateTaskSucceededAction,
   DeleteTaskSucceededAction,
   EditTaskSucceededAction,
+  FetchTasksFailedAction,
   FetchTasksSucceededAction,
 } from './types';
 import { waitFor } from '../helpers/waitFor';
@@ -54,10 +56,17 @@ export const deleteTask = (
   };
 };
 
-export const fetchTasks = (): AppThunk<Promise<FetchTasksSucceededAction>> => {
+export const fetchTasks = (): AppThunk<
+  Promise<FetchTasksSucceededAction | FetchTasksFailedAction>
+> => {
   return async dispatch => {
-    const { data } = await api.fetchTasks();
-    await waitFor(2000);
-    return dispatch(fetchTasksSucceeded(data));
+    try {
+      const { data } = await api.fetchTasks();
+      // await waitFor(2000);
+      throw new Error('Oh noes! Unable to fetch tasks!');
+      return dispatch(fetchTasksSucceeded(data));
+    } catch (error: any) {
+      return dispatch(fetchTasksFailed(error.message));
+    }
   };
 };

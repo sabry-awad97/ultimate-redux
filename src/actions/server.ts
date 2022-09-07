@@ -6,10 +6,18 @@ import {
   EditTaskSucceededAction,
   DeleteTaskSucceededAction,
   FetchTasksStartedAction,
+  FetchTasksFailedAction,
 } from './types';
 
 export const fetchTasksStarted = (): FetchTasksStartedAction => ({
   type: ActionTypes.FETCH_TASKS_STARTED,
+});
+
+export const fetchTasksFailed = (error: string): FetchTasksFailedAction => ({
+  type: ActionTypes.FETCH_TASKS_FAILED,
+  payload: {
+    error,
+  },
 });
 
 export const fetchTasksSucceeded = (
