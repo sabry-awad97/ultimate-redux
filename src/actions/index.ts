@@ -1,2 +1,2 @@
-export { createTask, editTask, fetchTasks } from './view';
+export { createTask, editTask, fetchTasks, deleteTask } from './view';
 export type { ActionTypes } from './types';

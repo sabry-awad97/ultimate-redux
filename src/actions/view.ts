@@ -4,11 +4,13 @@ import { AppThunk } from '../types/AppThunk';
 import { Task, TASK_STATUSES } from '../types/Task';
 import {
   createTaskSucceeded,
+  deleteTaskSucceeded,
   editTaskSucceeded,
   fetchTasksSucceeded,
 } from './server';
 import {
   CreateTaskSucceededAction,
+  DeleteTaskSucceededAction,
   EditTaskSucceededAction,
   FetchTasksSucceededAction,
 } from './types';
@@ -41,6 +43,15 @@ export const editTask = (
     const updatedTask = { ...found, ...task } as Task;
     const { data } = await api.editTask(id, updatedTask);
     return dispatch(editTaskSucceeded(data));
+  };
+};
+
+export const deleteTask = (
+  id: string
+): AppThunk<Promise<DeleteTaskSucceededAction>> => {
+  return async dispatch => {
+    await api.deleteTask(id);
+    return dispatch(deleteTaskSucceeded(id));
   };
 };
 

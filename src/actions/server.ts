@@ -4,6 +4,7 @@ import {
   FetchTasksSucceededAction,
   CreateTaskSucceededAction,
   EditTaskSucceededAction,
+  DeleteTaskSucceededAction,
 } from './types';
 
 export const fetchTasksSucceeded = (
@@ -26,5 +27,12 @@ export const editTaskSucceeded = (task: Task): EditTaskSucceededAction => ({
   type: ActionTypes.EDIT_TASK_SUCCEEDED,
   payload: {
     task,
+  },
+});
+
+export const deleteTaskSucceeded = (id: string): DeleteTaskSucceededAction => ({
+  type: ActionTypes.DELETE_TASK_SUCCEEDED,
+  payload: {
+    id,
   },
 });

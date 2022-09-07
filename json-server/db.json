@@ -1,32 +1,10 @@
 {
   "tasks": [
     {
-      "status": "Completed",
-      "id": "rXdwVXhxHLZ7VRAgQ8Lnp"
-    },
-    {
-      "id": "LVuI98cRm81M5jAV0JCkq",
+      "id": "dyWancI5PS-WZfa0vzAFw",
       "title": "Peace on Earth",
       "description": "No big deal.",
-      "status": "Unstarted"
-    },
-    {
-      "id": "DWLNo8jByE5w0e8tS0GNA",
-      "title": "Peace on Earth",
-      "description": "No big deal.",
-      "status": "Unstarted"
-    },
-    {
-      "id": "OMsZOYoVydXkDz2GaMwCh",
-      "title": "Peace on Earth",
-      "description": "No big deal.",
-      "status": "Unstarted"
-    },
-    {
-      "id": "q-UJ38Bch9eRHqUVm1iK8",
-      "title": "Peace on Earth",
-      "description": "No big deal.",
-      "status": "Unstarted"
+      "status": "Completed"
     }
   ]
 }

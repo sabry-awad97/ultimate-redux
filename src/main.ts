@@ -1,4 +1,4 @@
-import { fetchTasks, editTask, createTask } from './actions';
+import * as actions from './actions';
 import configureStore from './store';
 import { TASK_STATUSES } from './types/Task';
 
@@ -11,11 +11,15 @@ store.subscribe(() => {
 });
 
 // fetching tasks when the app loads
-await store.dispatch(fetchTasks());
+await store.dispatch(actions.fetchTasks());
 
-await store.dispatch(createTask('Peace on Earth', 'No big deal.'));
+const action = await store.dispatch(
+  actions.createTask('Peace on Earth', 'No big deal.')
+);
 
 // Editing tasks in the client not the server
 await store.dispatch(
-  editTask('rXdwVXhxHLZ7VRAgQ8Lnp', { status: TASK_STATUSES.Completed })
+  actions.editTask(action.payload.task.id, { status: TASK_STATUSES.Completed })
 );
+
+await store.dispatch(actions.deleteTask(action.payload.task.id));

@@ -21,6 +21,11 @@ export default (state = { tasks: [] as Task[] }, action: Action) => {
         tasks: action.payload.tasks,
       };
 
+    case ActionTypes.DELETE_TASK_SUCCEEDED:
+      return {
+        tasks: state.tasks.filter(task => task.id !== action.payload.id),
+      };
+
     default:
       return state;
   }
