@@ -1,11 +1,8 @@
-import { configureStore } from '@reduxjs/toolkit';
 import { createTask, editTask } from './actions';
-import tasks from './reducers';
+import configureStore from './store';
 import { TASK_STATUSES } from './types/Task';
 
-const store = configureStore({
-  reducer: tasks,
-});
+const store = configureStore();
 
 console.log(store.getState());
 

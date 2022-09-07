@@ -4,6 +4,7 @@ import { Task } from '../types/Task';
 const mockTasks: Task[] = [];
 
 // The real point of reducers is to handle actions.
+// Reducers are pure functions that update state in response to actions.
 export default (state = { tasks: mockTasks }, action: AnyAction) => {
   if (action.type === ActionTypes.CREATE_TASK) {
     return { tasks: state.tasks.concat(action.payload) };

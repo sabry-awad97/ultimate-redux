@@ -4,6 +4,8 @@ import { CreateTaskAction, ActionTypes, EditTaskAction } from './types';
 let _id = 1;
 export const uniqueId = () => _id++;
 
+// Actions are objects describing an event.
+// Action creators are functions that return actions.
 export const createTask = (
   title: string,
   description: string,
@@ -11,6 +13,7 @@ export const createTask = (
 ): CreateTaskAction => ({
   type: ActionTypes.CREATE_TASK,
   payload: {
+    // Side effects can be handled in action creators.
     id: uniqueId(),
     title,
     description,
