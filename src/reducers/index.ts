@@ -10,7 +10,7 @@ export default (state = initialState, action: Action) => {
     case ActionTypes.CREATE_TASK_SUCCEEDED:
       return {
         ...state,
-        tasks: state.tasks.concat(action.payload.task),
+        tasks: state.tasks.concat(action.payload),
       };
 
     case ActionTypes.EDIT_TASK_SUCCEEDED:
@@ -32,7 +32,7 @@ export default (state = initialState, action: Action) => {
       return {
         ...state,
         isLoading: false,
-        tasks: action.payload.tasks,
+        tasks: action.payload,
       };
 
     case ActionTypes.FETCH_TASKS_FAILED:

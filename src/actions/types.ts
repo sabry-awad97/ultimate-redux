@@ -2,8 +2,12 @@ import { Task } from '../types/Task';
 
 export enum ActionTypes {
   EDIT_TASK_SUCCEEDED = 'EDIT_TASK_SUCCEEDED',
-  CREATE_TASK_SUCCEEDED = 'CREATE_TASK_SUCCEEDED',
   DELETE_TASK_SUCCEEDED = 'DELETE_TASK_SUCCEEDED',
+
+  CREATE_TASK_STARTED = 'CREATE_TASK_STARTED',
+  CREATE_TASK_SUCCEEDED = 'CREATE_TASK_SUCCEEDED',
+  CREATE_TASK_FAILED = 'CREATE_TASK_FAILED',
+
   FETCH_TASKS_STARTED = 'FETCH_TASKS_STARTED',
   FETCH_TASKS_SUCCEEDED = 'FETCH_TASKS_SUCCEEDED',
   FETCH_TASKS_FAILED = 'FETCH_TASKS_FAILED',
@@ -22,9 +26,7 @@ export interface EditTaskSucceededAction {
 
 export interface FetchTasksSucceededAction {
   type: ActionTypes.FETCH_TASKS_SUCCEEDED;
-  payload: {
-    tasks: Task[];
-  };
+  payload: Task[];
 }
 
 export interface FetchTasksStartedAction {
@@ -40,9 +42,7 @@ export interface FetchTasksFailedAction {
 
 export interface CreateTaskSucceededAction {
   type: ActionTypes.CREATE_TASK_SUCCEEDED;
-  payload: {
-    task: Task;
-  };
+  payload: Task;
   meta: {
     analytics: {
       event: EventNames.CREATE_TASK;

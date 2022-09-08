@@ -32,9 +32,7 @@ import {
 
 export const createTaskSucceeded = (task: Task): CreateTaskSucceededAction => ({
   type: ActionTypes.CREATE_TASK_SUCCEEDED,
-  payload: {
-    task,
-  },
+  payload: task,
   // at the same level as type and payload
   meta: {
     analytics: {

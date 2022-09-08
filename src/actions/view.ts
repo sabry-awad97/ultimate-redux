@@ -4,7 +4,7 @@ import { CALL_API } from '../middleware/api';
 import { AppThunk } from '../types/AppThunk';
 import { Task, TASK_STATUSES } from '../types/Task';
 import {
-  createTaskSucceeded,
+  // createTaskSucceeded,
   deleteTaskSucceeded,
   editTaskSucceeded,
   // fetchTasksFailed,
@@ -12,7 +12,7 @@ import {
 } from './server';
 import {
   ActionTypes,
-  CreateTaskSucceededAction,
+  // CreateTaskSucceededAction,
   DeleteTaskSucceededAction,
   EditTaskSucceededAction,
   // FetchTasksFailedAction,
@@ -20,21 +20,21 @@ import {
 } from './types';
 // import { waitFor } from '../helpers/waitFor';
 
-export const createTask = (
-  title: string,
-  description: string,
-  status = TASK_STATUSES.UNSTARTED
-): AppThunk<Promise<CreateTaskSucceededAction>> => {
-  return async dispatch => {
-    const { data } = await api.createTask({
-      id: nanoid(),
-      title: title,
-      description: description,
-      status: status,
-    });
-    return dispatch(createTaskSucceeded(data));
-  };
-};
+// export const createTask = (
+//   title: string,
+//   description: string,
+//   status = TASK_STATUSES.UNSTARTED
+// ): AppThunk<Promise<CreateTaskSucceededAction>> => {
+//   return async dispatch => {
+//     const { data } = await api.createTask({
+//       id: nanoid(),
+//       title: title,
+//       description: description,
+//       status: status,
+//     });
+//     return dispatch(createTaskSucceeded(data));
+//   };
+// };
 
 export const editTask = (
   id: string,
@@ -82,6 +82,29 @@ export const fetchTasks = () => {
     [CALL_API]: {
       types: [FETCH_TASKS_STARTED, FETCH_TASKS_SUCCEEDED, FETCH_TASKS_FAILED],
       endpoint: '/tasks',
+    },
+  };
+};
+
+const { CREATE_TASK_STARTED, CREATE_TASK_SUCCEEDED, CREATE_TASK_FAILED } =
+  ActionTypes;
+export const createTask = (
+  title: string,
+  description: string,
+  status = TASK_STATUSES.UNSTARTED
+) => {
+  return {
+    type: 'CREATE_TASK',
+    [CALL_API]: {
+      types: [CREATE_TASK_STARTED, CREATE_TASK_SUCCEEDED, CREATE_TASK_FAILED],
+      endpoint: '/tasks',
+      method: 'POST',
+      body: {
+        id: nanoid(),
+        title: title,
+        description: description,
+        status: status,
+      },
     },
   };
 };

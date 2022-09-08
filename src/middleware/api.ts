@@ -2,30 +2,47 @@ import { Middleware } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
 import axios from 'axios';
-import { Task } from '../types/Task';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const CALL_API = 'CALL_API';
 
-const makeCall = async (endpoint: string) => {
+const makeCall = async (
+  endpoint: string,
+  method: 'GET' | 'POST' = 'GET',
+  body?: object
+) => {
   const url = `${API_BASE_URL}${endpoint}`;
-  const response = await axios.get<Task[]>(url);
+  const params = {
+    method,
+    url,
+    data: body,
+    headers: {
+      ContentType: 'application/json',
+    },
+  };
+  const response = await axios.request(params);
   return response;
 };
 
 const apiMiddleware: Middleware<{}, RootState> =
-  ({ dispatch }) =>
-  next =>
-  async action => {
-    const callApi = action[CALL_API];
+  _storeApi => next => async action => {
+    const callApi = action[CALL_API] as {
+      types: string[];
+      endpoint: string;
+      method?: 'GET' | 'POST';
+      body?: object;
+    };
+
     if (!callApi) {
       return next(action);
     }
 
-    const { types, endpoint } = callApi;
+    next({ type: action.type });
 
-    if (typeof callApi.endpoint !== 'string') {
+    const { types, endpoint, method, body } = callApi;
+
+    if (typeof endpoint !== 'string') {
       throw new Error('Specify a string endpoint URL.');
     }
 
@@ -42,15 +59,13 @@ const apiMiddleware: Middleware<{}, RootState> =
     next({ type: startedType });
 
     try {
-      const response = await makeCall(endpoint);
-      next({
+      const response = await makeCall(endpoint, method, body);
+      return next({
         type: successType,
-        payload: {
-          tasks: response.data,
-        },
+        payload: response.data,
       });
     } catch (error: any) {
-      dispatch({
+      return next({
         type: failureType,
         payload: {
           error: error.message || 'Something bad happened',
