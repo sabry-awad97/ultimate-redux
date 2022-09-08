@@ -1,34 +1,34 @@
 import { Task } from '../types/Task';
 import {
   ActionTypes,
-  FetchTasksSucceededAction,
+  // FetchTasksStartedAction,
+  // FetchTasksFailedAction,
+  // FetchTasksSucceededAction,
   CreateTaskSucceededAction,
   EditTaskSucceededAction,
   DeleteTaskSucceededAction,
-  FetchTasksStartedAction,
-  FetchTasksFailedAction,
   EventNames,
 } from './types';
 
-export const fetchTasksStarted = (): FetchTasksStartedAction => ({
-  type: ActionTypes.FETCH_TASKS_STARTED,
-});
+// export const fetchTasksStarted = (): FetchTasksStartedAction => ({
+//   type: ActionTypes.FETCH_TASKS_STARTED,
+// });
 
-export const fetchTasksFailed = (error: string): FetchTasksFailedAction => ({
-  type: ActionTypes.FETCH_TASKS_FAILED,
-  payload: {
-    error,
-  },
-});
+// export const fetchTasksFailed = (error: string): FetchTasksFailedAction => ({
+//   type: ActionTypes.FETCH_TASKS_FAILED,
+//   payload: {
+//     error,
+//   },
+// });
 
-export const fetchTasksSucceeded = (
-  tasks: Task[]
-): FetchTasksSucceededAction => ({
-  type: ActionTypes.FETCH_TASKS_SUCCEEDED,
-  payload: {
-    tasks,
-  },
-});
+// export const fetchTasksSucceeded = (
+//   tasks: Task[]
+// ): FetchTasksSucceededAction => ({
+//   type: ActionTypes.FETCH_TASKS_SUCCEEDED,
+//   payload: {
+//     tasks,
+//   },
+// });
 
 export const createTaskSucceeded = (task: Task): CreateTaskSucceededAction => ({
   type: ActionTypes.CREATE_TASK_SUCCEEDED,

@@ -5,7 +5,7 @@ import { TASK_STATUSES } from './types/Task';
 const store = configureStore();
 
 // fetching tasks when the app loads
-await store.dispatch(actions.fetchTasks());
+store.dispatch(actions.fetchTasks());
 
 // creating tasks
 const action = await store.dispatch(

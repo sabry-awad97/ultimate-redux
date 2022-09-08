@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import logger from '../middleware/logger';
 import analytics from '../middleware/analytics';
 import tasks from '../reducers';
+import apiMiddleware from '../middleware/api';
 
 const reducer = combineReducers({
   tasks,
@@ -9,7 +10,7 @@ const reducer = combineReducers({
 
 const store = configureStore({
   reducer,
-  middleware: gDM => gDM().concat(logger, analytics),
+  middleware: gDM => gDM().concat(apiMiddleware, logger, analytics),
 });
 
 export type RootState = ReturnType<typeof reducer>;

@@ -1,6 +1,6 @@
 import { Task } from '../types/Task';
 
-export const enum ActionTypes {
+export enum ActionTypes {
   EDIT_TASK_SUCCEEDED = 'EDIT_TASK_SUCCEEDED',
   CREATE_TASK_SUCCEEDED = 'CREATE_TASK_SUCCEEDED',
   DELETE_TASK_SUCCEEDED = 'DELETE_TASK_SUCCEEDED',

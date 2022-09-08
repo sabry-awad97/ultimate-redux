@@ -1,22 +1,24 @@
 import { nanoid } from 'nanoid';
 import * as api from '../api';
+import { CALL_API } from '../middleware/api';
 import { AppThunk } from '../types/AppThunk';
 import { Task, TASK_STATUSES } from '../types/Task';
 import {
   createTaskSucceeded,
   deleteTaskSucceeded,
   editTaskSucceeded,
-  fetchTasksFailed,
-  fetchTasksSucceeded,
+  // fetchTasksFailed,
+  // fetchTasksSucceeded,
 } from './server';
 import {
+  ActionTypes,
   CreateTaskSucceededAction,
   DeleteTaskSucceededAction,
   EditTaskSucceededAction,
-  FetchTasksFailedAction,
-  FetchTasksSucceededAction,
+  // FetchTasksFailedAction,
+  // FetchTasksSucceededAction,
 } from './types';
-import { waitFor } from '../helpers/waitFor';
+// import { waitFor } from '../helpers/waitFor';
 
 export const createTask = (
   title: string,
@@ -56,17 +58,30 @@ export const deleteTask = (
   };
 };
 
-export const fetchTasks = (): AppThunk<
-  Promise<FetchTasksSucceededAction | FetchTasksFailedAction>
-> => {
-  return async dispatch => {
-    try {
-      const { data } = await api.fetchTasks();
-      // await waitFor(2000);
-      // throw new Error('Oh noes! Unable to fetch tasks!');
-      return dispatch(fetchTasksSucceeded(data));
-    } catch (error: any) {
-      return dispatch(fetchTasksFailed(error.message));
-    }
+// export const fetchTasks = (): AppThunk<
+//   Promise<FetchTasksSucceededAction | FetchTasksFailedAction>
+// > => {
+//   return async dispatch => {
+//     try {
+//       const { data } = await api.fetchTasks();
+//       // await waitFor(2000);
+//       // throw new Error('Oh noes! Unable to fetch tasks!');
+//       return dispatch(fetchTasksSucceeded(data));
+//     } catch (error: any) {
+//       return dispatch(fetchTasksFailed(error.message));
+//     }
+//   };
+// };
+
+const { FETCH_TASKS_STARTED, FETCH_TASKS_SUCCEEDED, FETCH_TASKS_FAILED } =
+  ActionTypes;
+
+export const fetchTasks = () => {
+  return {
+    type: 'FETCH_TASKS',
+    [CALL_API]: {
+      types: [FETCH_TASKS_STARTED, FETCH_TASKS_SUCCEEDED, FETCH_TASKS_FAILED],
+      endpoint: '/tasks',
+    },
   };
 };
