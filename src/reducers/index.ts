@@ -73,6 +73,3 @@ export default (state = initialState, action: Action): typeof initialState => {
       return state;
   }
 };
-
-export const getFilteredTasks = (tasks: Task[], searchTerm: string): Task[] =>
-  tasks.filter(task => task.title.match(new RegExp(searchTerm, 'i')));

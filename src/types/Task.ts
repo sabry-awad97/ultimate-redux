@@ -1,4 +1,4 @@
-export const enum TASK_STATUSES {
+export enum TASK_STATUSES {
   UNSTARTED = 'Unstarted',
   IN_PROGRESS = 'In Progress',
   Completed = 'Completed',
