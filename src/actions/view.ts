@@ -7,6 +7,7 @@ import {
   createTaskSucceeded,
   deleteTaskSucceeded,
   editTaskSucceeded,
+  progressTimerStarted,
   // fetchTasksFailed,
   // fetchTasksSucceeded,
 } from './server';
@@ -31,6 +32,7 @@ export const createTask = (
       title: title,
       description: description,
       status: status,
+      timer: 0,
     });
     return dispatch(createTaskSucceeded(data));
   };
@@ -45,7 +47,13 @@ export const editTask = (
     const found = tasks.find(task => task.id === id);
     const updatedTask = { ...found, ...task } as Task;
     const { data } = await api.editTask(id, updatedTask);
-    return dispatch(editTaskSucceeded(data));
+    const succeeded = dispatch(editTaskSucceeded(data));
+
+    if (data.status === TASK_STATUSES.IN_PROGRESS) {
+      dispatch(progressTimerStarted(data.id));
+    }
+
+    return succeeded;
   };
 };
 
@@ -104,6 +112,7 @@ export const deleteTask = (
 //         title: title,
 //         description: description,
 //         status: status,
+//         timer: 0,
 //       },
 //     },
 //   };

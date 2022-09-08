@@ -1,8 +1,9 @@
-import { call, takeLatest, put } from 'redux-saga/effects';
+import { call, takeLatest, put, takeEvery, delay } from 'redux-saga/effects';
 import {
   ActionTypes,
   FetchTasksFailedAction,
   FetchTasksSucceededAction,
+  ProgressTimerIncrementedAction,
 } from '../actions/types';
 import * as api from '../api';
 
@@ -12,6 +13,18 @@ export function* rootSaga() {
 
   // takeLatest cancels old processes when a new one begins
   yield takeLatest(ActionTypes.FETCH_TASKS_STARTED, fetchTasks);
+
+  yield takeEvery(ActionTypes.TIMER_STARTED as any, handleProgressTimer);
+}
+
+function* handleProgressTimer({ payload }: ProgressTimerIncrementedAction) {
+  while (true) {
+    yield delay(1000);
+    yield put<ProgressTimerIncrementedAction>({
+      type: ActionTypes.TIMER_INCREMENTED,
+      payload: { taskId: payload.taskId },
+    });
+  }
 }
 
 function* fetchTasks() {

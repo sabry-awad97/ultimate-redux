@@ -1,7 +1,7 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
-import analytics from '../middleware/analytics';
+// import analytics from '../middleware/analytics';
 import tasks from '../reducers';
 // import apiMiddleware from '../middleware/api';
 import { rootSaga } from '../middleware/sagas';
@@ -14,8 +14,7 @@ const reducer = combineReducers({
 
 const store = configureStore({
   reducer,
-  middleware: gDM =>
-    gDM().concat(/* apiMiddleware, */ sagaMiddleware, logger, analytics),
+  middleware: gDM => gDM().concat(sagaMiddleware, logger),
 });
 
 sagaMiddleware.run(rootSaga);

@@ -7,6 +7,16 @@ const initialState = { error: '', isLoading: false, tasks: [] as Task[] };
 // Reducers are pure functions that update state in response to actions.
 export default (state = initialState, action: Action) => {
   switch (action.type) {
+    case ActionTypes.TIMER_INCREMENTED:
+      return {
+        ...state,
+        tasks: state.tasks.map(task =>
+          task.id === action.payload.taskId
+            ? { ...task, timer: task.timer + 1 }
+            : task
+        ),
+      };
+
     case ActionTypes.CREATE_TASK_SUCCEEDED:
       return {
         ...state,

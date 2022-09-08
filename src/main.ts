@@ -1,8 +1,9 @@
 import * as actions from './actions';
 import {
-  CreateTaskSucceededAction,
+  // CreateTaskSucceededAction,
   FetchTasksSucceededAction,
 } from './actions/types';
+import { waitFor } from './helpers/waitFor';
 import configureStore from './store';
 import { TASK_STATUSES } from './types/Task';
 
@@ -23,6 +24,14 @@ const action = await store.dispatch(
 );
 
 // Editing tasks
+await store.dispatch(
+  actions.editTask(action.payload.id, {
+    status: TASK_STATUSES.IN_PROGRESS,
+  })
+);
+
+await waitFor(5000);
+
 await store.dispatch(
   actions.editTask(action.payload.id, {
     status: TASK_STATUSES.Completed,

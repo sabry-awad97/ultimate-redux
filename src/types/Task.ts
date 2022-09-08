@@ -9,4 +9,5 @@ export interface Task {
   title: string;
   description: string;
   status: TASK_STATUSES;
+  timer: number;
 }
