@@ -1,5 +1,5 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import logger from '../middleware/logger';
+import logger from 'redux-logger';
 import analytics from '../middleware/analytics';
 import tasks from '../reducers';
 import apiMiddleware from '../middleware/api';
