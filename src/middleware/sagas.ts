@@ -1,9 +1,19 @@
-import { call, takeLatest, put, takeEvery, delay } from 'redux-saga/effects';
+import {
+  call,
+  takeLatest,
+  put,
+  // takeEvery,
+  delay,
+  actionChannel,
+  take,
+} from 'redux-saga/effects';
 import {
   ActionTypes,
   FetchTasksFailedAction,
   FetchTasksSucceededAction,
   ProgressTimerIncrementedAction,
+  ProgressTimerStartedAction,
+  ProgressTimerStoppedAction,
 } from '../actions/types';
 import * as api from '../api';
 
@@ -14,16 +24,42 @@ export function* rootSaga() {
   // takeLatest cancels old processes when a new one begins
   yield takeLatest(ActionTypes.FETCH_TASKS_STARTED, fetchTasks);
 
-  yield takeEvery(ActionTypes.TIMER_STARTED as any, handleProgressTimer);
+  // yield takeEvery(ActionTypes.TIMER_STARTED as any, handleProgressTimer);
+
+  yield takeLatestById(
+    [ActionTypes.TIMER_STARTED, ActionTypes.TIMER_STOPPED],
+    handleProgressTimer
+  );
 }
 
-function* handleProgressTimer({ payload }: ProgressTimerIncrementedAction) {
+function* takeLatestById(actionTypes: ActionTypes[], saga: any) {
+  const channelsMap = {} as any;
   while (true) {
-    yield delay(1000);
-    yield put<ProgressTimerIncrementedAction>({
-      type: ActionTypes.TIMER_INCREMENTED,
-      payload: { taskId: payload.taskId },
-    });
+    const requestedChannel: unknown = yield actionChannel(actionTypes);
+    const { payload, type } = yield take(requestedChannel as any);
+    const { taskId } = payload;
+
+    if (!channelsMap[taskId]) {
+      channelsMap[taskId] = requestedChannel;
+      yield takeLatest(channelsMap[taskId], saga);
+    }
+
+    yield put(channelsMap[taskId], { type, payload });
+  }
+}
+
+function* handleProgressTimer({
+  payload,
+  type,
+}: ProgressTimerStartedAction | ProgressTimerStoppedAction) {
+  if (type === ActionTypes.TIMER_STARTED) {
+    while (true) {
+      yield delay(1000);
+      yield put<ProgressTimerIncrementedAction>({
+        type: ActionTypes.TIMER_INCREMENTED,
+        payload: { taskId: payload.taskId },
+      });
+    }
   }
 }
 

@@ -9,6 +9,7 @@ import {
   DeleteTaskSucceededAction,
   EventNames,
   ProgressTimerStartedAction,
+  ProgressTimerStoppedAction,
 } from './types';
 
 export const fetchTasksStarted = (): FetchTasksStartedAction => ({
@@ -63,6 +64,15 @@ export const progressTimerStarted = (
   taskId: string
 ): ProgressTimerStartedAction => ({
   type: ActionTypes.TIMER_STARTED,
+  payload: {
+    taskId,
+  },
+});
+
+export const progressTimerStopped = (
+  taskId: string
+): ProgressTimerStoppedAction => ({
+  type: ActionTypes.TIMER_STOPPED,
   payload: {
     taskId,
   },

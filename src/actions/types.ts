@@ -13,6 +13,7 @@ export enum ActionTypes {
   FETCH_TASKS_FAILED = 'FETCH_TASKS_FAILED',
 
   TIMER_STARTED = 'TIMER_STARTED',
+  TIMER_STOPPED = 'TIMER_STOPPED',
   TIMER_INCREMENTED = 'TIMER_INCREMENTED',
 }
 
@@ -70,6 +71,13 @@ export interface ProgressTimerStartedAction {
   };
 }
 
+export interface ProgressTimerStoppedAction {
+  type: ActionTypes.TIMER_STOPPED;
+  payload: {
+    taskId: string;
+  };
+}
+
 export interface ProgressTimerIncrementedAction {
   type: ActionTypes.TIMER_INCREMENTED;
   payload: {
@@ -85,4 +93,5 @@ export type Action =
   | CreateTaskSucceededAction
   | DeleteTaskSucceededAction
   | ProgressTimerStartedAction
-  | ProgressTimerIncrementedAction;
+  | ProgressTimerIncrementedAction
+  | ProgressTimerStoppedAction;

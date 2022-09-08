@@ -8,6 +8,7 @@ import {
   deleteTaskSucceeded,
   editTaskSucceeded,
   progressTimerStarted,
+  progressTimerStopped,
   // fetchTasksFailed,
   // fetchTasksSucceeded,
 } from './server';
@@ -15,7 +16,7 @@ import {
   // ActionTypes,
   CreateTaskSucceededAction,
   DeleteTaskSucceededAction,
-  EditTaskSucceededAction,
+  // EditTaskSucceededAction,
   // FetchTasksFailedAction,
   // FetchTasksSucceededAction,
 } from './types';
@@ -38,22 +39,23 @@ export const createTask = (
   };
 };
 
-export const editTask = (
-  id: string,
-  task: Partial<Task> = {}
-): AppThunk<Promise<EditTaskSucceededAction>> => {
+export const editTask = (id: string, task: Partial<Task> = {}): AppThunk => {
   return async (dispatch, getState) => {
     const tasks = getState().tasks.tasks;
     const found = tasks.find(task => task.id === id);
     const updatedTask = { ...found, ...task } as Task;
     const { data } = await api.editTask(id, updatedTask);
-    const succeeded = dispatch(editTaskSucceeded(data));
+    dispatch(editTaskSucceeded(data));
 
     if (data.status === TASK_STATUSES.IN_PROGRESS) {
-      dispatch(progressTimerStarted(data.id));
+      return dispatch(progressTimerStarted(data.id));
     }
 
-    return succeeded;
+    if (task.status === TASK_STATUSES.Completed) {
+      return dispatch(progressTimerStopped(data.id));
+    }
+
+    return;
   };
 };
 

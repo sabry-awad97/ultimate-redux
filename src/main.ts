@@ -23,8 +23,7 @@ const action = await store.dispatch(
   actions.createTask('Peace on Earth', 'No big deal.')
 );
 
-// Editing tasks
-await store.dispatch(
+store.dispatch(
   actions.editTask(action.payload.id, {
     status: TASK_STATUSES.IN_PROGRESS,
   })
@@ -32,11 +31,12 @@ await store.dispatch(
 
 await waitFor(5000);
 
-await store.dispatch(
+// Editing tasks
+store.dispatch(
   actions.editTask(action.payload.id, {
     status: TASK_STATUSES.Completed,
   })
 );
 
 // deleting tasks
-await store.dispatch(actions.deleteTask(action.payload.id));
+// await store.dispatch(actions.deleteTask(action.payload.id));
