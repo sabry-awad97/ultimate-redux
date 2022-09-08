@@ -7,6 +7,7 @@ import {
   DeleteTaskSucceededAction,
   FetchTasksStartedAction,
   FetchTasksFailedAction,
+  EventNames,
 } from './types';
 
 export const fetchTasksStarted = (): FetchTasksStartedAction => ({
@@ -33,6 +34,15 @@ export const createTaskSucceeded = (task: Task): CreateTaskSucceededAction => ({
   type: ActionTypes.CREATE_TASK_SUCCEEDED,
   payload: {
     task,
+  },
+  // at the same level as type and payload
+  meta: {
+    analytics: {
+      event: EventNames.CREATE_TASK,
+      data: {
+        id: task.id,
+      },
+    },
   },
 });
 

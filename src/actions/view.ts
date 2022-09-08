@@ -62,7 +62,7 @@ export const fetchTasks = (): AppThunk<
   return async dispatch => {
     try {
       const { data } = await api.fetchTasks();
-      await waitFor(2000);
+      // await waitFor(2000);
       // throw new Error('Oh noes! Unable to fetch tasks!');
       return dispatch(fetchTasksSucceeded(data));
     } catch (error: any) {

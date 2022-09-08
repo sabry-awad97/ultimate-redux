@@ -9,6 +9,10 @@ export const enum ActionTypes {
   FETCH_TASKS_FAILED = 'FETCH_TASKS_FAILED',
 }
 
+export const enum EventNames {
+  CREATE_TASK = 'CREATE_TASK',
+}
+
 export interface EditTaskSucceededAction {
   type: ActionTypes.EDIT_TASK_SUCCEEDED;
   payload: {
@@ -38,6 +42,14 @@ export interface CreateTaskSucceededAction {
   type: ActionTypes.CREATE_TASK_SUCCEEDED;
   payload: {
     task: Task;
+  };
+  meta: {
+    analytics: {
+      event: EventNames.CREATE_TASK;
+      data: {
+        id: Task['id'];
+      };
+    };
   };
 }
 
