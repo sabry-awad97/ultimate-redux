@@ -10,7 +10,7 @@ const initialState = {
 
 // The real point of reducers is to handle actions.
 // Reducers are pure functions that update state in response to actions.
-export default (state = initialState, action: Action) => {
+export default (state = initialState, action: Action): typeof initialState => {
   switch (action.type) {
     case ActionTypes.FILTER_TASKS:
       return {
@@ -73,3 +73,6 @@ export default (state = initialState, action: Action) => {
       return state;
   }
 };
+
+export const getFilteredTasks = (tasks: Task[], searchTerm: string): Task[] =>
+  tasks.filter(task => task.title.match(new RegExp(searchTerm, 'i')));
