@@ -1,7 +1,7 @@
 import { Task } from '../types/Task';
 import {
   ActionTypes,
-  // FetchTasksStartedAction,
+  FetchTasksStartedAction,
   // FetchTasksFailedAction,
   // FetchTasksSucceededAction,
   CreateTaskSucceededAction,
@@ -10,9 +10,9 @@ import {
   EventNames,
 } from './types';
 
-// export const fetchTasksStarted = (): FetchTasksStartedAction => ({
-//   type: ActionTypes.FETCH_TASKS_STARTED,
-// });
+export const fetchTasksStarted = (): FetchTasksStartedAction => ({
+  type: ActionTypes.FETCH_TASKS_STARTED,
+});
 
 // export const fetchTasksFailed = (error: string): FetchTasksFailedAction => ({
 //   type: ActionTypes.FETCH_TASKS_FAILED,
