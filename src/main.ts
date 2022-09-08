@@ -1,42 +1,17 @@
 import * as actions from './actions';
-import {
-  // CreateTaskSucceededAction,
-  FetchTasksSucceededAction,
-} from './actions/types';
 import { waitFor } from './helpers/waitFor';
 import configureStore from './store';
-import { TASK_STATUSES } from './types/Task';
 
 const store = configureStore();
 
-// fetching tasks when the app loads
-// await (store.dispatch(
-//   actions.fetchTasks()
-// ) as unknown as Promise<FetchTasksSucceededAction>);
+store.dispatch(actions.fetchTasksStarted());
+await waitFor(1000);
 
-await (store.dispatch(
-  actions.fetchTasksStarted()
-) as unknown as Promise<FetchTasksSucceededAction>);
+const searchTerm = 'ea';
+store.dispatch(actions.filterTasks(searchTerm));
 
-// creating tasks
-const action = await store.dispatch(
-  actions.createTask('Peace on Earth', 'No big deal.')
-);
+const filteredTasks = store.getState().tasks.tasks.filter(task => {
+  return task.title.match(new RegExp(searchTerm, 'i'));
+});
 
-store.dispatch(
-  actions.editTask(action.payload.id, {
-    status: TASK_STATUSES.IN_PROGRESS,
-  })
-);
-
-await waitFor(5000);
-
-// Editing tasks
-store.dispatch(
-  actions.editTask(action.payload.id, {
-    status: TASK_STATUSES.Completed,
-  })
-);
-
-// deleting tasks
-// await store.dispatch(actions.deleteTask(action.payload.id));
+console.log(filteredTasks);

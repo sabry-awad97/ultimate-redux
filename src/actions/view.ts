@@ -13,9 +13,11 @@ import {
   // fetchTasksSucceeded,
 } from './server';
 import {
+  ActionTypes,
   // ActionTypes,
   CreateTaskSucceededAction,
   DeleteTaskSucceededAction,
+  FilterTasksAction,
   // EditTaskSucceededAction,
   // FetchTasksFailedAction,
   // FetchTasksSucceededAction,
@@ -66,6 +68,10 @@ export const deleteTask = (
     await api.deleteTask(id);
     return dispatch(deleteTaskSucceeded(id));
   };
+};
+
+export const filterTasks = (searchTerm: string): FilterTasksAction => {
+  return { type: ActionTypes.FILTER_TASKS, payload: { searchTerm } };
 };
 
 // export const fetchTasks = (): AppThunk<

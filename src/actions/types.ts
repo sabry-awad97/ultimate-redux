@@ -15,6 +15,8 @@ export enum ActionTypes {
   TIMER_STARTED = 'TIMER_STARTED',
   TIMER_STOPPED = 'TIMER_STOPPED',
   TIMER_INCREMENTED = 'TIMER_INCREMENTED',
+
+  FILTER_TASKS = 'FILTER_TASKS',
 }
 
 export const enum EventNames {
@@ -85,6 +87,13 @@ export interface ProgressTimerIncrementedAction {
   };
 }
 
+export interface FilterTasksAction {
+  type: ActionTypes.FILTER_TASKS;
+  payload: {
+    searchTerm: string;
+  };
+}
+
 export type Action =
   | EditTaskSucceededAction
   | FetchTasksStartedAction
@@ -94,4 +103,5 @@ export type Action =
   | DeleteTaskSucceededAction
   | ProgressTimerStartedAction
   | ProgressTimerIncrementedAction
-  | ProgressTimerStoppedAction;
+  | ProgressTimerStoppedAction
+  | FilterTasksAction;
