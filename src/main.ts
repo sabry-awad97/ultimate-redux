@@ -4,12 +4,6 @@ import { TASK_STATUSES } from './types/Task';
 
 const store = configureStore();
 
-console.log(store.getState());
-
-store.subscribe(() => {
-  console.log('current state: ', store.getState());
-});
-
 // fetching tasks when the app loads
 await store.dispatch(actions.fetchTasks());
 
