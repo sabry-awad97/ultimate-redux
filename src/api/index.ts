@@ -17,3 +17,8 @@ export const editTask = (id: string, task: Task) =>
 
 export const deleteTask = (id: string) =>
   axios.delete<''>(`${API_BASE_URL}/tasks/${id}`);
+
+export const fetchProjects = () => {
+  const response = client.get('/projects?_embed=tasks');
+  return response;
+};

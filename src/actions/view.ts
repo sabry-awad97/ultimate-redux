@@ -2,6 +2,7 @@ import { nanoid } from 'nanoid';
 import * as api from '../api';
 // import { CALL_API } from '../middleware/api';
 import { AppThunk } from '../types/AppThunk';
+import { Project } from '../types/Project';
 import { Task, TASK_STATUSES } from '../types/Task';
 import {
   createTaskSucceeded,
@@ -17,7 +18,11 @@ import {
   // ActionTypes,
   CreateTaskSucceededAction,
   DeleteTaskSucceededAction,
+  FetchProjectsFailedAction,
+  FetchProjectsStartedAction,
+  FetchProjectsSucceededAction,
   FilterTasksAction,
+  SetCurrentProjectIdAction,
   // EditTaskSucceededAction,
   // FetchTasksFailedAction,
   // FetchTasksSucceededAction,
@@ -73,6 +78,46 @@ export const deleteTask = (
 export const filterTasks = (searchTerm: string): FilterTasksAction => {
   return { type: ActionTypes.FILTER_TASKS, payload: { searchTerm } };
 };
+
+export const fetchProjectsStarted = (): FetchProjectsStartedAction => ({
+  type: ActionTypes.FETCH_PROJECTS_STARTED,
+});
+
+export const fetchProjectsSucceeded = (
+  projects: Project[]
+): FetchProjectsSucceededAction => ({
+  type: ActionTypes.FETCH_PROJECTS_SUCCEEDED,
+  payload: { projects },
+});
+
+export const fetchProjectsFailed = (
+  error: string
+): FetchProjectsFailedAction => ({
+  type: ActionTypes.FETCH_PROJECTS_FAILED,
+  payload: {
+    error,
+  },
+});
+
+export const fetchProjects = (): AppThunk => {
+  return async dispatch => {
+    dispatch(fetchProjectsStarted());
+    try {
+      const { data } = await api.fetchProjects();
+      return dispatch(fetchProjectsSucceeded(data));
+    } catch (error: any) {
+      console.error(error);
+      return dispatch(fetchProjectsFailed(error.message));
+    }
+  };
+};
+
+export const setCurrentProjectId = (id: number): SetCurrentProjectIdAction => ({
+  type: ActionTypes.SET_CURRENT_PROJECT_ID,
+  payload: {
+    id,
+  },
+});
 
 // export const fetchTasks = (): AppThunk<
 //   Promise<FetchTasksSucceededAction | FetchTasksFailedAction>

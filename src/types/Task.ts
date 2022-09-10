@@ -10,4 +10,5 @@ export interface Task {
   description: string;
   status: TASK_STATUSES;
   timer: number;
+  projectId?: number;
 }
