@@ -4,7 +4,7 @@ import { Project } from '../types/Project';
 const initialState = {
   error: '',
   isLoading: false,
-  items: [] as Project[],
+  projects: [] as Project[],
 };
 
 export const projects = (
@@ -22,39 +22,39 @@ export const projects = (
       return {
         ...state,
         isLoading: false,
-        items: action.payload.projects,
+        projects: action.payload.projects,
       };
 
     case ActionTypes.CREATE_TASK_SUCCEEDED:
       const { payload } = action;
-      const projectIndex = state.items.findIndex(
+      const projectIndex = state.projects.findIndex(
         project => project.id === payload.projectId
       );
-      const project = state.items[projectIndex];
+      const project = state.projects[projectIndex];
       return {
         ...state,
-        items: [
-          ...state.items.slice(0, projectIndex),
+        projects: [
+          ...state.projects.slice(0, projectIndex),
           {
             ...project,
             tasks: project.tasks.concat(payload),
           },
-          ...state.items.slice(projectIndex + 1),
+          ...state.projects.slice(projectIndex + 1),
         ],
       };
 
     case ActionTypes.EDIT_TASK_SUCCEEDED: {
       const { task } = action.payload;
-      const projectIndex = state.items.findIndex(
+      const projectIndex = state.projects.findIndex(
         project => project.id === task.projectId
       );
-      const project = state.items[projectIndex];
+      const project = state.projects[projectIndex];
       const taskIndex = project.tasks.findIndex(t => t.id === task.id);
 
       return {
         ...state,
-        items: [
-          ...state.items.slice(0, projectIndex),
+        projects: [
+          ...state.projects.slice(0, projectIndex),
           {
             ...project,
             tasks: [
@@ -63,7 +63,7 @@ export const projects = (
               ...project.tasks.slice(taskIndex + 1),
             ],
           },
-          ...state.items.slice(projectIndex + 1),
+          ...state.projects.slice(projectIndex + 1),
         ],
       };
     }

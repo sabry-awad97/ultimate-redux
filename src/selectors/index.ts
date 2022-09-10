@@ -17,13 +17,13 @@ const getSearchTerm = createSelector(
 
 const getTasksByProjectId = createSelector(
   [getProjects, getPage],
-  (projects, page) => {
-    if (!page.currentProjectId) {
+  ({ projects }, { currentProjectId }) => {
+    if (!currentProjectId) {
       return [];
     }
 
-    const currentProject = projects.items.find(
-      project => project.id === page.currentProjectId
+    const currentProject = projects.find(
+      project => project.id === currentProjectId
     );
 
     return currentProject?.tasks || [];
