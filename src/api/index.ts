@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Project } from '../types/Project';
 import { Task } from '../types/Task';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -19,6 +20,6 @@ export const deleteTask = (id: string) =>
   axios.delete<''>(`${API_BASE_URL}/tasks/${id}`);
 
 export const fetchProjects = () => {
-  const response = client.get('/projects?_embed=tasks');
+  const response = client.get<Project[]>('/projects?_embed=tasks');
   return response;
 };

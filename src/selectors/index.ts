@@ -7,8 +7,12 @@ const { UNSTARTED, Completed, IN_PROGRESS } = TASK_STATUSES;
 const taskStatuses = [UNSTARTED, Completed, IN_PROGRESS];
 
 const getTasks = (state: RootState) => state.tasks;
-const getProjects = (state: RootState) => state.projects;
+const selectProjects = (state: RootState) => state.projects;
 const getPage = (state: RootState) => state.page;
+
+const getProjects = createSelector([selectProjects], ({ projects }) =>
+  Object.keys(projects).map(id => projects[id])
+);
 
 const getSearchTerm = createSelector(
   [getTasks],
@@ -16,19 +20,31 @@ const getSearchTerm = createSelector(
 );
 
 const getTasksByProjectId = createSelector(
-  [getProjects, getPage],
-  ({ projects }, { currentProjectId }) => {
-    if (!currentProjectId) {
+  [selectProjects, getPage, getTasks],
+  ({ projects }, { currentProjectId }, { tasks }) => {
+    if (!currentProjectId || !projects[currentProjectId]) {
       return [];
     }
 
-    const currentProject = projects.find(
-      project => project.id === currentProjectId
-    );
-
-    return currentProject?.tasks || [];
+    const taskIds = projects[currentProjectId].tasks;
+    return taskIds.map(task => tasks[task.id]);
   }
 );
+
+// const getTasksByProjectId = createSelector(
+//   [selectProjects, getPage],
+//   ({ items: projects }, { currentProjectId }) => {
+//     if (!currentProjectId) {
+//       return [];
+//     }
+
+//     const currentProject = projects.find(
+//       project => project.id === currentProjectId
+//     );
+
+//     return currentProject?.tasks || [];
+//   }
+// );
 
 export const getFilteredTasks = createSelector(
   [getTasksByProjectId, getSearchTerm],

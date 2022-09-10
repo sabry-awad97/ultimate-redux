@@ -5,7 +5,8 @@ const initialState = {
   searchTerm: '',
   error: '',
   isLoading: false,
-  tasks: [] as Task[],
+  items: [] as Task[],
+  tasks: {} as { [id: string]: Task },
 };
 
 // The real point of reducers is to handle actions.
@@ -15,6 +16,33 @@ export const tasks = (
   action: Action
 ): typeof initialState => {
   switch (action.type) {
+    case ActionTypes.RECEIVE_ENTITIES: {
+      const { tasks } = action.payload;
+      if (tasks) {
+        return {
+          ...state,
+          isLoading: false,
+          tasks,
+        };
+      }
+
+      return state;
+    }
+
+    case ActionTypes.TIMER_INCREMENTED:
+      const nextTasks = Object.keys(state.tasks).map(taskId => {
+        const task = state.tasks[taskId];
+        if (task.id === action.payload.taskId) {
+          return { ...task, timer: task.timer + 1 };
+        }
+        return task;
+      });
+
+      return {
+        ...state,
+        items: nextTasks,
+      };
+
     case ActionTypes.FILTER_TASKS:
       return {
         ...state,
@@ -24,24 +52,34 @@ export const tasks = (
     case ActionTypes.TIMER_INCREMENTED:
       return {
         ...state,
-        tasks: state.tasks.map(task =>
+        items: state.items.map(task =>
           task.id === action.payload.taskId
             ? { ...task, timer: task.timer + 1 }
             : task
         ),
       };
 
+    // case ActionTypes.CREATE_TASK_SUCCEEDED:
+    //   return {
+    //     ...state,
+    //     items: state.items.concat(action.payload),
+    //   };
+
     case ActionTypes.CREATE_TASK_SUCCEEDED:
+      const task = action.payload;
       return {
         ...state,
-        tasks: state.tasks.concat(action.payload),
+        tasks: {
+          ...state.tasks,
+          [task.id]: task,
+        },
       };
 
     case ActionTypes.EDIT_TASK_SUCCEEDED:
       const { payload } = action;
       return {
         ...state,
-        tasks: state.tasks.map(task =>
+        items: state.items.map(task =>
           task.id === payload.task.id ? { ...task, ...payload.task } : task
         ),
       };
@@ -56,7 +94,7 @@ export const tasks = (
       return {
         ...state,
         isLoading: false,
-        tasks: action.payload,
+        items: action.payload,
       };
 
     case ActionTypes.FETCH_TASKS_FAILED:
@@ -69,7 +107,7 @@ export const tasks = (
     case ActionTypes.DELETE_TASK_SUCCEEDED:
       return {
         ...state,
-        tasks: state.tasks.filter(task => task.id !== action.payload.id),
+        items: state.items.filter(task => task.id !== action.payload.id),
       };
 
     default:

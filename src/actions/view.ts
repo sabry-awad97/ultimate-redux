@@ -1,5 +1,7 @@
 import { nanoid } from 'nanoid';
 import * as api from '../api';
+import { Entities, normalizeData } from '../helpers/normalizeData';
+import { projectSchema } from '../schemas';
 // import { CALL_API } from '../middleware/api';
 import { AppThunk } from '../types/AppThunk';
 import { Project } from '../types/Project';
@@ -22,6 +24,7 @@ import {
   FetchProjectsStartedAction,
   FetchProjectsSucceededAction,
   FilterTasksAction,
+  ReceiveEntitiesAction,
   SetCurrentProjectIdAction,
   // EditTaskSucceededAction,
   // FetchTasksFailedAction,
@@ -48,7 +51,7 @@ export const createTask = (
 
 export const editTask = (id: string, task: Partial<Task> = {}): AppThunk => {
   return async (dispatch, getState) => {
-    const tasks = getState().tasks.tasks;
+    const tasks = getState().tasks.items;
     const found = tasks.find(task => task.id === id);
     const updatedTask = { ...found, ...task } as Task;
     const { data } = await api.editTask(id, updatedTask);
@@ -99,15 +102,34 @@ export const fetchProjectsFailed = (
   },
 });
 
+export const receiveEntities = (
+  entities: Entities<{ tasks: Task; projects: Project }>
+): ReceiveEntitiesAction => {
+  return {
+    type: ActionTypes.RECEIVE_ENTITIES,
+    payload: entities,
+  };
+};
+
 export const fetchProjects = (): AppThunk => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
     dispatch(fetchProjectsStarted());
     try {
       const { data } = await api.fetchProjects();
-      return dispatch(fetchProjectsSucceeded(data));
+      const normalizedData = normalizeData<{ tasks: Task; projects: Project }>(
+        data,
+        [projectSchema]
+      );
+
+      dispatch(receiveEntities(normalizedData.entities));
+
+      if (!getState().page.currentProjectId) {
+        const defaultProjectId = data[0].id;
+        dispatch(setCurrentProjectId(defaultProjectId));
+      }
     } catch (error: any) {
       console.error(error);
-      return dispatch(fetchProjectsFailed(error.message));
+      dispatch(fetchProjectsFailed(error.message));
     }
   };
 };

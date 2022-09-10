@@ -1,3 +1,4 @@
+import { Entities } from '../helpers/normalizeData';
 import { Project } from '../types/Project';
 import { Task } from '../types/Task';
 
@@ -24,10 +25,17 @@ export enum ActionTypes {
   FILTER_TASKS = 'FILTER_TASKS',
 
   SET_CURRENT_PROJECT_ID = 'SET_CURRENT_PROJECT_ID',
+
+  RECEIVE_ENTITIES = 'RECEIVE_ENTITIES',
 }
 
 export const enum EventNames {
   CREATE_TASK = 'CREATE_TASK',
+}
+
+export interface ReceiveEntitiesAction {
+  type: ActionTypes.RECEIVE_ENTITIES;
+  payload: Entities<{ tasks: Task; projects: Project }>;
 }
 
 export interface SetCurrentProjectIdAction {
@@ -140,4 +148,5 @@ export type Action =
   | ProgressTimerStartedAction
   | ProgressTimerIncrementedAction
   | ProgressTimerStoppedAction
-  | FilterTasksAction;
+  | FilterTasksAction
+  | ReceiveEntitiesAction;
